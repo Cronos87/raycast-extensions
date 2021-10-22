@@ -30,7 +30,7 @@ export function showArticles(category: Category) {
   return (
     <List isLoading={state.articles.length === 0} searchBarPlaceholder="Filter articles...">
       {state.articles.map((article) => (
-        <ArticleListItem key={article.id} article={article} />
+        <ArticleListItem key={article.id} article={article} category={category} />
       ))}
     </List>
   );

@@ -1,8 +1,10 @@
 import { ActionPanel, CopyToClipboardAction, List, OpenInBrowserAction } from "@raycast/api";
 import { Article } from "../article";
+import { Category } from "../categories";
 
-export default function ArticleListItem(props: { article: Article }) {
+export default function ArticleListItem(props: { article: Article, category: Category }) {
   const article = props.article;
+  const icon = props.category === Category.All ? "icon-smashing-magazine.png" : `icon-${props.category}.png`;
 
   return (
     <List.Item
@@ -10,7 +12,7 @@ export default function ArticleListItem(props: { article: Article }) {
       key={article.id}
       title={article.title}
       subtitle={article.author}
-      icon="list-icon.png"
+      icon={icon}
       accessoryTitle={new Date(article.date_published).toLocaleDateString()}
       actions={
         <ActionPanel>

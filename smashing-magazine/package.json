@@ -2,7 +2,7 @@
   "name": "smashing-magazine",
   "title": "Smashing Magazine",
   "description": "Latest articles from Smashing Magazine organized by category.",
-  "icon": "command-icon.png",
+  "icon": "icon-smashing-magazine.png",
   "author": "Cronos87",
   "license": "MIT",
   "commands": [
@@ -18,14 +18,16 @@
       "title": "Latest Vue Articles",
       "subtitle": "",
       "description": "Read Vue latest articles.",
-      "mode": "view"
+      "mode": "view",
+      "icon": "icon-vue.png"
     },
     {
       "name": "react",
       "title": "Latest React Articles",
       "subtitle": "",
       "description": "Read React latest articles.",
-      "mode": "view"
+      "mode": "view",
+      "icon": "icon-react.png"
     }
   ],
   "dependencies": {
