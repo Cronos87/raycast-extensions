@@ -1,0 +1,50 @@
+{
+  "name": "smashing-magazine",
+  "title": "Smashing Magazine",
+  "description": "Latest articles from Smashing Magazine organized by category.",
+  "icon": "command-icon.png",
+  "author": "Cronos87",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "all-latest",
+      "title": "All Latest Articles",
+      "subtitle": "",
+      "description": "Read latest articles.",
+      "mode": "view"
+    },
+    {
+      "name": "vue",
+      "title": "Latest Vue Articles",
+      "subtitle": "",
+      "description": "Read Vue latest articles.",
+      "mode": "view"
+    },
+    {
+      "name": "react",
+      "title": "Latest React Articles",
+      "subtitle": "",
+      "description": "Read React latest articles.",
+      "mode": "view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.25.1",
+    "got": "^11.8.2",
+    "rss-parser": "^3.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "~16.10.0",
+    "@types/react": "^17.0.28",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "react-devtools": "^4.19.2",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop"
+  }
+}
