@@ -2,6 +2,7 @@ import { ActionPanel, Action, List, showToast, Toast, Icon, useNavigation } from
 import { useState, useEffect, useCallback } from "react";
 import { HowLongToBeatService, HowLongToBeatEntry } from "howlongtobeat";
 import { Details } from "./details";
+import { pluralize } from "./helpers";
 
 const hltbService = new HowLongToBeatService();
 
@@ -28,7 +29,7 @@ function SearchListItem({ searchResult }: { searchResult: HowLongToBeatEntry }) 
   return (
     <List.Item
       title={searchResult.name}
-      accessoryTitle={`Main Story: ${searchResult.gameplayMain.toString()} hours`}
+      accessoryTitle={`Main Story: ${searchResult.gameplayMain.toString()} ${pluralize(searchResult.gameplayMain, "hour")}`}
       actions={
         <ActionPanel>
           <ActionPanel.Section>

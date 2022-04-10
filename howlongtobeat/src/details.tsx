@@ -2,6 +2,7 @@ import { Action, ActionPanel, Detail } from "@raycast/api";
 import { useCallback, useEffect, useState } from "react";
 import { HowLongToBeatService, HowLongToBeatEntry } from "howlongtobeat";
 import { baseUrl } from ".";
+import { pluralize } from "./helpers";
 
 const hltbService = new HowLongToBeatService();
 
@@ -48,7 +49,7 @@ export function Details(props: DetailsProps) {
 # ${result.name}
 ${description}
 
-## ${result.playableOn.length === 1 ? "Platform" : "Platforms"}
+## ${pluralize(result.playableOn.length, "Platform")}
 ${result.playableOn.join(", ")}
     `;
   }, [state]);
@@ -58,9 +59,15 @@ ${result.playableOn.join(", ")}
   }, []);
 
   const url = `${baseUrl}${id}`;
-  const mainStoryText = (state.result?.gameplayMain || 0) >= 1 ? `${state.result?.gameplayMain} hours` : '-';
-  const mainExtraText = (state.result?.gameplayMainExtra || 0) >= 1 ? `${state.result?.gameplayMainExtra} hours` : '-';
-  const completionistsText = (state.result?.gameplayCompletionist || 0) >= 1 ? `${state.result?.gameplayCompletionist} hours` : '-';
+
+  const mainStoryHours = state.result?.gameplayMain || 0;
+  const mainStoryText = mainStoryHours >= 1 ? `${state.result?.gameplayMain} ${pluralize(mainStoryHours, "hour")}` : '-';
+
+  const mainExtraHours = state.result?.gameplayMainExtra || 0;
+  const mainExtraText = mainExtraHours >= 1 ? `${state.result?.gameplayMainExtra} ${pluralize(mainExtraHours, "hour")}` : '-';
+
+  const completionistsHours = state.result?.gameplayCompletionist || 0;
+  const completionistsText = completionistsHours >= 1 ? `${state.result?.gameplayCompletionist} ${pluralize(completionistsHours, "hour")}` : '-';
 
   const metadata = !state.isLoading ? (
     <Detail.Metadata>
