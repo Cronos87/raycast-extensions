@@ -17,6 +17,13 @@
       "subtitle": "Gamekult",
       "description": "Search the latest news from Gamekult.",
       "mode": "view"
+    },
+    {
+      "name": "search",
+      "title": "Search Games",
+      "subtitle": "Gamekult",
+      "description": "Search and open game's records.",
+      "mode": "view"
     }
   ],
   "dependencies": {
