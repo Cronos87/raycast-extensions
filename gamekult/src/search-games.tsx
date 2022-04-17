@@ -22,7 +22,7 @@ export default function Command() {
 
   return (
     <List isLoading={state.isLoading} onSearchTextChange={search} searchBarPlaceholder="Search games..." throttle>
-      <List.Section title="Results" subtitle={state.games.length + ""}>
+      <List.Section title="Results" subtitle={state.games.length.toString()}>
         {state.games.map((game) => (
           <SearchListItem key={game.id} game={game} />
         ))}
