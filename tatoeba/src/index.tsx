@@ -13,6 +13,11 @@ interface SearchListItemProps {
   showDetails?: boolean;
 }
 
+interface DropdownDetailsProps {
+  languages: string[];
+  onChange: (value: string) => void;
+}
+
 interface Sentence {
   id: number;
   text: string;
@@ -75,24 +80,74 @@ function SearchListItem({ sentence, showDetails = true }: SearchListItemProps): 
 }
 
 function Details({ sentence }: { sentence: Sentence }) {
+  const [directSentences, setDirectSentences] = useState<Sentence[] | undefined>(sentence.directSentences);
+  const [indirectSentences, setIndirectSentences] = useState<Sentence[] | undefined>(sentence.indirectSentences);
+
+  // Find all languages to populate the filter dropdown.
+  const languages: string[] = [];
+
+  if (sentence.directSentences) {
+    for (const directSentence of sentence.directSentences) {
+      if (!languages.includes(directSentence.langName)) {
+        languages.push(directSentence.langName);
+      }
+    }
+  }
+
+  if (sentence.indirectSentences) {
+    for (const directSentence of sentence.indirectSentences) {
+      if (!languages.includes(directSentence.langName)) {
+        languages.push(directSentence.langName);
+      }
+    }
+  }
+
+  languages.sort();
+
+  const onFilterChange = useCallback((value: string) => {
+    let { directSentences, indirectSentences } = sentence;
+
+    if (value !== "") {
+      directSentences = sentence.directSentences?.filter((sentence: Sentence) => sentence.langName === value);
+      indirectSentences = sentence.indirectSentences?.filter((sentence: Sentence) => sentence.langName === value);
+    }
+
+    setDirectSentences(directSentences);
+    setIndirectSentences(indirectSentences);
+  }, []);
+
   return (
-    <List navigationTitle={sentence.text}>
+    <List
+      navigationTitle={sentence.text}
+      searchBarAccessory={<DropdownDetails languages={languages} onChange={onFilterChange} />}
+    >
       <SearchListItem key={sentence.id} sentence={sentence} showDetails={false} />
-      {!!sentence.directSentences?.length && (
-        <List.Section title="Translations" subtitle={sentence.directSentences.length.toString()}>
-          {sentence.directSentences.map((sentence) => (
+      {!!directSentences?.length && (
+        <List.Section title="Translations" subtitle={directSentences.length.toString()}>
+          {directSentences.map((sentence) => (
             <SearchListItem key={sentence.id} sentence={sentence} showDetails={false} />
           ))}
         </List.Section>
       )}
-      {!!sentence.indirectSentences?.length && (
-        <List.Section title="Translations of translations" subtitle={sentence.indirectSentences.length.toString()}>
-          {sentence.indirectSentences.map((sentence) => (
+      {!!indirectSentences?.length && (
+        <List.Section title="Translations of translations" subtitle={indirectSentences.length.toString()}>
+          {indirectSentences.map((sentence) => (
             <SearchListItem key={sentence.id} sentence={sentence} showDetails={false} />
           ))}
         </List.Section>
       )}
     </List>
+  );
+}
+
+function DropdownDetails({ languages, onChange }: DropdownDetailsProps) {
+  return (
+    <List.Dropdown tooltip="Select Language" onChange={onChange}>
+      <List.Dropdown.Item title="All" value="" />
+      {languages.map((language) => (
+        <List.Dropdown.Item key={language} title={language} value={language} />
+      ))}
+    </List.Dropdown>
   );
 }
 
@@ -216,8 +271,6 @@ async function performSearch(search: string, signal: AbortSignal): Promise<Sente
       indirectSentences,
     });
   }
-
-  console.log(sentences);
 
   return sentences;
 }
